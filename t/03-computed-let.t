@@ -16,7 +16,8 @@ my %source = (
 );
 
 {
-	let (dog => $dog) = %source;
+	my $key = "dog";
+	let ({$key} => $dog) = %source;
 
 	is($dog, "bark");
 }
@@ -27,22 +28,6 @@ my %source = (
 	my $err = $@;
 	ok(!$r, 'failed under strict');
 	ok($err =~ m/Global symbol "\$dog" requires explicit package name/);
-}
-
-{
-	# Multiple variables, in arbitrary order:
-	let (cat => $cat, pig => $pig, bird => $bird, rat => $rat) = %source;
-
-	is ($cat, "meow");
-	is ($pig, "oink");
-	is ($rat, "squeak");
-	is ($bird, "squwak");
-}
-
-{
-	# When using your own specified key, no reason the variable has to be named anything in particular:
-	let (cat => $meow) = %source;
-	is ($meow, "meow");
 }
 
 done_testing;
