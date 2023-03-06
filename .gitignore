@@ -1,0 +1,38 @@
+.last_cover_stats
+/META.yml
+/META.json
+/MYMETA.*
+*.o
+*.pm.tdy
+*.bs
+lib/**/*.c
+
+# Devel::Cover
+/cover_db/
+
+# Devel::NYTProf
+nytprof.out
+
+# Dizt::Zilla
+/.build/
+
+# Module::Build
+/_build/
+/Build
+/Build.bat
+
+# ExtUtils::MakeMaker
+/blib/
+/_eumm/
+/*.gz
+/Makefile
+/Makefile.old
+/MANIFEST.bak
+/pm_to_blib
+/*.zip
+
+# vim swap files
+.*.swp
+
+/Syntax-Keyword-Let*.tar.gz
+/Syntax-Keyword-Let-*/

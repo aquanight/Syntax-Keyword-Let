@@ -1,0 +1,18 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Test::More;
+
+use Syntax::Keyword::Let;
+
+my %source = (
+	dog => "bark",
+	cat => "meow",
+	pig => "oink",
+	rat => "squeak",
+	bird => "squwak",
+);
+
+done_testing;
