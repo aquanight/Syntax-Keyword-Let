@@ -85,7 +85,7 @@ static const struct XSParseKeywordPieceType pieces_let[] = {
 		)
 	),
 	XPK_EQUALS,
-	XPK_LISTEXPR
+	XPK_TERMEXPR
 };
 
 static const struct XSParseKeywordHooks kwhooks_let = {
