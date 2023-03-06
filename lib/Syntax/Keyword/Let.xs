@@ -33,7 +33,7 @@ static int build_let(pTHX_ OP** out, XSParseKeywordPiece* args[], size_t nargs, 
 		}
 		else key_op = (OP*)0;
 		int padix = args[argix++]->i;
-		OP* varop = newOP(OP_PADSV, OPpLVAL_INTRO|OPf_MOD|OPf_REF);
+		OP* varop = newOP(OP_PADSV, (OPpLVAL_INTRO<<8)|OPf_MOD|OPf_REF);
 		varop->op_targ = padix;
 		if (!key_op)
 		{
