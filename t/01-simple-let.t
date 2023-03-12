@@ -39,4 +39,10 @@ my %source = (
 	is ($bird, "squwak");
 }
 
+{
+	let ($missing) = %source;
+
+	ok(!defined $missing);
+}
+
 done_testing;
