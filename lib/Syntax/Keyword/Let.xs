@@ -295,7 +295,7 @@ BOOT:
 	
 	XopENTRY_set(&xop_destructure, xop_name, "destructure");
 	XopENTRY_set(&xop_destructure, xop_desc, "deconstruct hash");
-	XopENTRY_set(&xop_destructure, xop_class, OA_UNOP_AUX);
+	XopENTRY_set(&xop_destructure, xop_class, OA_LISTOP);
 	Perl_custom_op_register(aTHX_ &pp_destructure, &xop_destructure);
 
 	register_xs_parse_keyword("let", &kwhooks_let, (void*)0);
