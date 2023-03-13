@@ -178,7 +178,7 @@ static int build_let(pTHX_ OP** out, XSParseKeywordPiece* args[], size_t nargs, 
 				{
 					SV* sv_key = args[argix++]->sv;
 					SvREADONLY_on(sv_key);
-					key_op = newSVOP(OP_CONST, 0, sv_key);
+					key_op = newSVOP(OP_CONST, (OPpCONST_BARE << 8), sv_key);
 				}
 				break;
 				case 1: /* XPK_BRACESCOPE ( XPK_TERMEXPR ) */
@@ -209,7 +209,7 @@ static int build_let(pTHX_ OP** out, XSParseKeywordPiece* args[], size_t nargs, 
 				char* name = PadnamePV(PadnamelistARRAY(PL_comppad_name)[padix]);
 				SV* sv = newSVpv(name + 1, 0);
 				SvREADONLY_on(sv);
-				key_op = newSVOP(OP_CONST, 0, sv);
+				key_op = newSVOP(OP_CONST, (OPpCONST_BARE << 8), sv);
 			}
 			op_append_elem(OP_LIST, keyops, key_op);
 			padop = newOP(OP_PADSV, OPf_REF|OPf_MOD|(OPpLVAL_INTRO << 8));
