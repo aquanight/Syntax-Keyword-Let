@@ -78,6 +78,8 @@ doesn't count variables that were assigned undefined because their value didn't 
 
 =head1 LIMITATIONS
 
+=over 4
+
 =item * You cannot use 'undef' to skip values. While you could just not ask for them, this also prevents you from excluding them from your %remain hash.
 
 =item * Array destructuring isn't possible yet but you can use 'my' as normal.
@@ -89,3 +91,5 @@ doesn't count variables that were assigned undefined because their value didn't 
 =item * Refaliasing is not supported (binding aliases to the source hash elements)
 
 =item * You cannot declare a variable and use it in the same expression (such as across an 'and' operator). This same limitation applies to 'my'.
+
+=back
