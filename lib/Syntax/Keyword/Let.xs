@@ -6,14 +6,21 @@
 
 /*
 Effect of op flags:
-OPf_WANT_VOID : No value returned
-OPf_WANT_SCALAR : Return value is the number of EXISTING keys from the hash destructured.
-OPf_WANT_LIST : Honestly don't have an actual clue what to return.
-(Context will actually be determined by GIMME_V)
-OPf_REF : If set, restav/resthv are put on the stack directly for further modification (let being used as an lvalue)
-OPf_MOD : Currently this should only get set alongside OPf_REF so it doesn't do anything extra
 
 OPpRESTHV : Indicates that a 'rest item' - which is a hash - is on the stack to receive all remaining key/value pairs. Note that it will be with the rest of the target variables.
+
+Context:
+void context -> returns nothing, obviously
+scalar context -> returns the number of *existing* keys extracted from the source hash
+list context -> returns the variables assigned to
+
+Note a key difference with scalar context compared to, say, list assignment. For example:
+
+$count = (my ($dog) = $hash{dog}); # Always 1.
+$count = (let ($dog) = %hash); # 1 if and only if exists $hash{dog} - otherwise 0.
+
+If you want to also filter out values that exist but are undefined, use defined() operator:
+let ($dog) = %hash; if (defined($dog)) { ... }
 */
 
 /* Order of operators:
