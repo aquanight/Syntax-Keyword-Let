@@ -14,6 +14,11 @@ sub import {
 	$^H{'Syntax::Keyword::Let'} = 1;
 }
 
+sub B::Deparse::pp_destructure {
+	require Syntax::Keyword::Let::Deparse;
+	goto &Syntax::Keyword::Let::Deparse::pp_destructure_real;
+}
+
 1;
 
 =head1 NAME

@@ -19,7 +19,7 @@ use constant {
 
 use Devel::Peek;
 
-sub B::Deparse::pp_destructure {
+sub pp_destructure_real {
 	my $self = shift;
 	my ($op) = @_;
 	my @kids;
@@ -60,3 +60,6 @@ sub B::Deparse::pp_destructure {
 	}
 	return sprintf "let (%s) = %s", join(",", @keyset), $self->deparse($srcop);
 }
+
+no warnings 'redefine';
+*B::Deparse::pp_destructure = \&pp_destructure_real;

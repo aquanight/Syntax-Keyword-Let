@@ -9,8 +9,6 @@ use Syntax::Keyword::Let;
 
 use B::Deparse;
 
-use Syntax::Keyword::Let::Deparse;
-
 my $deparser = B::Deparse->new();
 
 sub is_deparsed {
