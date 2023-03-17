@@ -63,3 +63,5 @@ sub pp_destructure_real {
 
 no warnings 'redefine';
 *B::Deparse::pp_destructure = \&pp_destructure_real;
+
+1;
