@@ -56,6 +56,7 @@ static OP* pp_destructure(pTHX)
 	/* resthv only needs to track the keys from the source hv */
 	if (resthv)
 	{
+		sv_2mortal(MUTABLE_SV(resthv));
 		HE *ent;
 		for (hv_iterinit(hv); ent = hv_iternext(hv);)
 		{
@@ -156,14 +157,17 @@ static int build_let(pTHX_ OP** out, XSParseKeywordPiece* args[], size_t nargs, 
 	OP* padops = newLISTOP(OP_LIST, 0, NULL, NULL);
 	I32 op_private = 0;
 	int varct = args[argix++]->i;
+	int already_complained = 0;
 	
 	while (varct-- > 0)
 	{
-		if (op_private & OPpRESTHV)
+		if (op_private & OPpRESTHV && !already_complained)
 		{
 			/* If we are even here, it's because we have another destructure element after a "rest" destructure.
 			*/
-			Perl_yyerror(aTHX_ "Expected end of destructure list");
+			Perl_qerror(aTHX_ mess("No more variables allowed after hash target"));
+			already_complained = 1;
+			//Perl_yyerror(aTHX_ "Expected end of destructure list");
 			/* Note that we continue because unless this is an unrecoverable error, we need to still return some kind of optree */
 			/* (yyerror can die() out sometimes but that's not our problem anymore) */
 		}
@@ -195,7 +199,7 @@ static int build_let(pTHX_ OP** out, XSParseKeywordPiece* args[], size_t nargs, 
 		{
 			if (key_op)
 			{
-				Perl_yyerror(aTHX_ "Partial destructure to hash is not yet supported");
+				Perl_qerror(aTHX_ mess("Partial destructure to hash is not yet supported"));
 			}
 			padop = newOP(OP_PADHV, OPf_REF|OPf_MOD|(OPpLVAL_INTRO << 8));
 			padop->op_targ = padix;

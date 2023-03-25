@@ -60,7 +60,7 @@ that end up being the same name as the variable they go into, thus reducing one 
 
 let (KEYVARLIST) = HASHEXPR;
 
-let declares the listed to be lexical to the enclosing block, file, or eval. The key/variable list must be placed inside parentheses, even if it's just a single variable.
+let declares the listed to be lexical to the enclosing block, file, or C<eval>. The key/variable list must be placed inside parentheses, even if it's just a single variable.
 
 KEYVARLIST is a comma-separated list of key and variable pairs enclosed in parentheses. The key can either be a bareword, or it can be an expression enclosed in braces ({}).
 Note that you must use braces even if it's a quoted string constant. The key must be separated from the variable by using the "fat comma" (=>). All variables involved must be
@@ -76,10 +76,42 @@ another variable.
 HASHEXPR is an expression that provides the source hash from which values are assigned to the assorted variables. It could be a simple hash variable, a hash dereference, or
 any other kind of expression that will return a list of name and value pairs.
 
-In list context, the let operator returns the variables and hash elements that were just assigned to.
+The stability of results from a tied or magical source hash, especially when a trailing "remainder" hash is used should be considered "best effort".
+
+In list context, the let operator returns the variables and hash elements that were just assigned to. (Note that in the case of a trailing hash, both keys and values are returned.)
 
 In scalar context, the let operator returns an integer value counting the number of keys in the source hash that existed and were assigned to a variable. Note that this
 doesn't count variables that were assigned undefined because their value didn't exist.
+
+=head1 EXAMPLES
+
+	use Syntax::Keyword::Let;
+	
+	my %source = (
+		cat => "meow",
+		dog => "bark",
+		pie => "round",
+	);
+	
+	let ($cat) = %source; # $cat contains "meow"
+	
+	if (let ($dog) = %source) {
+		say "Dog goes $dog";
+	}
+	
+	if (let (missing => $var) = %source) {
+		say 'This won't be reached: missing isn't in %source so let () returned 0';
+	}
+	
+	let ($pie, %not_pie) = %source;
+	
+	exists $not_pie{pie} and say "This shouldn't be here";
+	
+	sub make_sounds {
+		print "Noise: $_" for @_;
+	}
+	
+	make_sounds(let ($cat, $dog) = %source);
 
 =head1 LIMITATIONS
 
