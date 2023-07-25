@@ -13,12 +13,12 @@
 /*
 Effect of op flags:
 
-OPpRESTHV : Indicates that a 'rest item' - which is a hash - is on the stack to receive all remaining key/value pairs. Note that it will be with the rest of the target variables.
+OPpRESTHV : Indicates that a 'rest item' - which is a hash - is on the stack to receive all remaining key/value pairs.
+OPpRESTAV : Indicates that a 'rest item' - which is an array - is present.
+OPpNESTEDHV : Used in nestedlet to enter nested hash structures
+OPpNESTEDAV : Used in nestedlet to enter nested array structures
 
-Context:
-void context -> returns nothing, obviously
-scalar context -> returns the number of *existing* keys extracted from the source hash
-list context -> returns the variables assigned to
+Return value is the number of keys successfully extracted
 
 Note a key difference with scalar context compared to, say, list assignment. For example:
 
@@ -405,7 +405,9 @@ static OP* pp_destructure(pTHX)
 			}
 		}
 	}
-	mXPUSHi(result_count);
+	
+	if (GIMME_V != G_VOID)
+		mXPUSHi(result_count);
 	
 	RETURN;
 }
