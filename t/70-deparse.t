@@ -31,10 +31,18 @@ my %source = (
 	bird => "squwak",
 );
 
+my $source = \%source;
+
 is_deparsed(
 	sub { let ($dog) = %source; },
 	q{let ($dog) = %source;},
 	"basic deparsing of destructure"
+);
+
+is_deparsed(
+	sub { let {$dog} = $source; },
+	q{let {$dog} = $source;},
+	"deparsing of indirect structure"
 );
 
 is_deparsed(

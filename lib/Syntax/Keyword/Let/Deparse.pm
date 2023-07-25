@@ -118,6 +118,7 @@ sub pp_nestedlet_real {
 	for (my $kid = $op->first; $$kid; $kid = $kid->sibling) {
 		push @kids, $kid;
 	}
+	(shift @kids)->type == OP_PUSHMARK or return "???";
 	my $p = $op->private;
 	if ($p | OPpNESTEDHV) {
 		my @items = $self->$parse_hash_target_list($op, @kids);
