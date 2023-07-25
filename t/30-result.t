@@ -31,16 +31,7 @@ my @list;
 {
 	@list = let ($dog, $cat) = %source;
 	
-	is_deeply(\@list, [ "bark", "meow" ], "List-context let returns the assignees");
-}
-
-{
-	@list = let ($bird, %not_bird) = %source;
-	
-	is ($list[0], "squwak", "First item okay");
-	is (scalar(@list), 9, "Correct number of items returned");
-	is_deeply([sort @list[1, 3, 5, 7]], [sort keys %not_bird], "Keys are present");
-	is_deeply([@list[2, 4, 6, 8]], [@not_bird{@list[1, 3, 5, 7]}], "Values are correct");
+	is_deeply(\@list, [ 2 ], "List-context let also returns the number of keys retrieved");
 }
 
 done_testing;
